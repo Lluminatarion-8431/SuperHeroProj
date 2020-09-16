@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SuperHeroes.Data;
+using SuperHeroes.Models;
 
 namespace SuperHeroes.Controllers
 {
@@ -19,7 +20,7 @@ namespace SuperHeroes.Controllers
         // GET: SuperHeroController
         public ActionResult Index()
         {
-            var superheroes = _context.SuperHeroes;
+            var superheroes = _context.SuperHeroes.ToList();
             return View(superheroes);
         }
 
@@ -33,17 +34,19 @@ namespace SuperHeroes.Controllers
         // GET: SuperHeroController/Create
         public ActionResult Create()
         {
-            Superhero superhero = new Superhero();
-            return View(superhero);
+            SuperHero superHero = new SuperHero();
+            return View(superHero);
         }
 
         // POST: SuperHeroController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create([Bind("Id,Name,AlterEgo,PrimaryAbility,SecondaryAbility,CatchPhrase")] SuperHero superHero)
         {
             try
             {
+                _context.SuperHeroes.Add(superHero);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -62,10 +65,12 @@ namespace SuperHeroes.Controllers
         // POST: SuperHeroController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, SuperHero superHero)
         {
             try
             {
+                _context.SuperHeroes.Update(superHero);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -84,10 +89,12 @@ namespace SuperHeroes.Controllers
         // POST: SuperHeroController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, SuperHero superHero)
         {
             try
             {
+                _context.SuperHeroes.Remove(superHero);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch
