@@ -19,7 +19,8 @@ namespace SuperHeroes.Controllers
         // GET: SuperHeroController
         public ActionResult Index()
         {
-            return View();
+            var superheroes = _context.SuperHeroes;
+            return View(superheroes);
         }
 
         // GET: SuperHeroController/Details/5
@@ -32,7 +33,8 @@ namespace SuperHeroes.Controllers
         // GET: SuperHeroController/Create
         public ActionResult Create()
         {
-            return View();
+            Superhero superhero = new Superhero();
+            return View(superhero);
         }
 
         // POST: SuperHeroController/Create
@@ -53,7 +55,8 @@ namespace SuperHeroes.Controllers
         // GET: SuperHeroController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var superHero = _context.SuperHeroes.Where(hero => hero.Id == id).SingleOrDefault();
+            return View(superHero);
         }
 
         // POST: SuperHeroController/Edit/5
@@ -74,7 +77,8 @@ namespace SuperHeroes.Controllers
         // GET: SuperHeroController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var superHero = _context.SuperHeroes.Where(hero => hero.Id == id).SingleOrDefault();
+            return View(superHero);
         }
 
         // POST: SuperHeroController/Delete/5
